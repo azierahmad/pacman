@@ -1,0 +1,133 @@
+<html>
+<head>
+    <title>NinjaMan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id='world'></div>
+    <div id = 'ninjaman'></div>
+    <div id ="ghost"></div>
+    <div>
+        <h1>Score: <span id="Score"> 0 </span> || Lives: <span id="lives"> 2 </span></h1>
+        <br />
+        <p>This is a random game, always refreshe the page when you finsh the game to go to new levels.</p>
+    </div>        
+</body>
+<script type="text/javascript">
+    var leftValue = 8;
+    var topValue = 8;
+    var aa = ab = ac = ad = ae = af = ag = ah = 0;
+    var worldDict = {
+        0: 'blank',
+        1: 'wall',
+        2: 'sushi',
+        3: 'onigiri'
+    }
+    var Score = 0
+    function randomizer() {
+        aa += Math.floor((Math.random() * 4));
+        ab += Math.floor((Math.random() * 4));
+        ac += Math.floor((Math.random() * 4));
+        ad += Math.floor((Math.random() * 4));
+        ae += Math.floor((Math.random() * 4));
+        af += Math.floor((Math.random() * 4));
+        ag += Math.floor((Math.random() * 4));
+        ah += Math.floor((Math.random() * 4));
+        
+        console.log(world);
+    }
+randomizer();
+    var world = [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,ag,3,ae,2,aa,2,2,1,ah,2,ag,2,1],
+        [1,2,1,2,2,1,2,1,2,2,2,2,2,2,1],
+        [1,2,2,2,1,1,2,2,2,1,3,1,ah,1,1],
+        [1,0,2,2,1,1,ab,2,2,1,2,1,1,1,1],
+        [1,2,aa,2,2,2,2,1,aa,1,2,1,1,1,1],
+        [1,2,1,2,1,2,2,2,2,1,2,ae,2,2,1],
+        [1,2,1,2,1,1,1,1,1,1,1,1,1,2,1],
+        [1,0,2,2,1,1,0,2,2,ac,1,1,1,2,1],
+        [1,2,1,2,1,1,3,1,2,2,1,1,1,2,1],
+        [1,1,1,2,af,2,2,2,ag,ae,ae,2,3,2,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    ];
+    function drawWorld(){
+        output = "";
+        for(var row = 0; row < world.length; row++){
+            output += "<div class = 'row'></div>";
+            for(var x = 0; x < world[row].length; x++){
+                output += "<div class = '" + worldDict[world[row][x]] +"'></div>"
+                worldDict[world[row][x]];
+            }
+            output += "</div>"
+        }
+        document.getElementById('world').innerHTML = output;
+    }
+    drawWorld();
+
+    var ninjaman = {
+        x: 1,
+        y: 1
+}
+    var score = 0;
+    function drawNinjaman(){
+        document.getElementById("ninjaman").style.left = ninjaman.x * 40 +"px";
+        document.getElementById("ninjaman").style.top = ninjaman.y * 40 + "px";
+    }
+drawNinjaman();
+
+    document.onkeydown = function(e){
+        console.log('e: ', e);
+        console.log('e.keyCode', e.keyCode);
+        
+        if(e.keyCode == 38){
+            if(world[ninjaman.y - 1][ninjaman.x] != 1){
+                ninjaman.y -= 1;
+                if(world[ninjaman.y][ninjaman.x] == 2){
+                    Score += 10;
+                }
+                else if (world[ninjaman.y][ninjaman.x] == 3) {
+                    Score += 3;
+                }
+            }
+        }
+        else if(e.keyCode == 37){
+            if(world[ninjaman.y][ninjaman.x - 1] != 1){
+                ninjaman.x -= 1;
+                if (world[ninjaman.y][ninjaman.x] == 2) {
+                    Score += 10;
+                }
+                else if (world[ninjaman.y][ninjaman.x] == 3) {
+                    Score += 3;
+                }
+            }
+        }
+        else if(e.keyCode == 40){
+            if(world[ninjaman.y + 1][ninjaman.x] != 1){
+                ninjaman.y += 1;
+                if (world[ninjaman.y][ninjaman.x] == 2) {
+                    Score += 10;
+                }
+                else if (world[ninjaman.y][ninjaman.x] == 3) {
+                    Score += 3;
+                }
+            }
+        } 
+        else if(e.keyCode == 39){
+            if(world[ninjaman.y][ninjaman.x + 1] != 1){
+                ninjaman.x += 1;
+                if (world[ninjaman.y][ninjaman.x] == 2) {
+                    Score += 10;
+                }
+                else if(world[ninjaman.y][ninjaman.x] == 3){
+                    Score += 3;
+                }
+            }
+        }
+        world[ninjaman.y][ninjaman.x] = 0;
+        drawNinjaman();
+        drawWorld();
+        document.getElementById("Score").innerHTML = Score;
+    }
+</script>
+</html>
